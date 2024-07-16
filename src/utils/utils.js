@@ -2,12 +2,35 @@ import CryptoJS from "crypto-js";
 import { Asset, BASE_FEE, Horizon, Keypair, Networks, Operation, TransactionBuilder } from "diamante-sdk-js";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { bscTestnet } from "viem/chains";
 
 const server = new Horizon.Server('https://diamtestnet.diamcircle.io/');
+
+const coreTestnet = {
+    id: 1115,
+    name: 'core-testnet',
+    iconUrl: 'https://chainlist.org/unknown-logo.png',
+    iconBackground: '#fff',
+    nativeCurrency: { name: 'TCORE', symbol: 'tCORE', decimals: 18 },
+    rpcUrls: {
+      default: { http: ['https://rpc.test.btcs.network'] },
+    },
+  }
 
 export function cn(...inputs) {
     return twMerge(clsx(inputs));
 }
+
+export const config = getDefaultConfig({
+    appName: 'RainbowKit App',
+    projectId: 'YOUR_PROJECT_ID',
+    chains: [
+      coreTestnet,
+    //   bscTestnet
+    ],
+    ssr: true,
+  });
 
 export const createWallet = () => {
     const pair = Keypair.random();
